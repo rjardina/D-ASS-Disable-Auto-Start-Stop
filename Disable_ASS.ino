@@ -40,8 +40,8 @@ Wiring:
 
 Servo servo; // Creats an object named "servo" to control the servo
 
-int InitialDelay = 60; // Initial delay (in seconds) after Arduino gets power
-int Press = 1; // How long to press the button for
+long InitialDelay = 120; // Initial delay (in seconds) after Arduino power ups
+long Press = 1; // How long to press the button for
 
 void ScaleServoToPot() {
   servo.write(map(analogRead(A0), 0, 1024, 0, 180)); }
@@ -50,8 +50,8 @@ void ScaleServoToPot() {
 void setup() {
   pinMode(3, INPUT_PULLUP); // Enables Pin 3
   servo.attach(9);  // Attaches the servo on pin 9 to the servo objectư
-  while (millis() < InitialDelay * 1000) { };  // do nothing for a moment
-  while (millis() < InitialDelay * 1000 + Press * 1000) { ScaleServoToPot(); } }
+  while (digitalRead(3) && millis() < (InitialDelay * 1000)) { };  // do nothing for a moment & if the button to adjust is held it will go streight to the loop
+  while (digitalRead(3) && millis() < (InitialDelay * 1000) + (Press * 1000)) { ScaleServoToPot(); } }
     // Holds the position to press the ASS button for about a seconds
 
 void loop() {
